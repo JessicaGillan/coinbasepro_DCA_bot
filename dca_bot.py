@@ -155,7 +155,7 @@ def executePurchase(args):
           if sns:
             sns.publish(
                 TargetArn=sns_topic,
-                Subject=f"{market_name} {order_side} order of {amount} {amount_currency} OPEN/UNFILLED",
+                Subject=f"{market_name} {order_side} order of {round(float(amount),3)} {amount_currency} OPEN/UNFILLED",
                 Message=json.dumps(order, sort_keys=True, indent=4)
             )
           exit()
@@ -172,7 +172,7 @@ def executePurchase(args):
           if sns:
             sns.publish(
                 TargetArn=sns_topic,
-                Subject=f"{market_name} {order_side} order of {amount} {amount_currency} CANCELLED",
+                Subject=f"{market_name} {order_side} order of {round(float(amount),3)} {amount_currency} CANCELLED",
                 Message=json.dumps(order, sort_keys=True, indent=4)
             )
           exit()
@@ -196,7 +196,7 @@ def executePurchase(args):
 
   market_price = float((Decimal(order["executed_value"]) / Decimal(order["filled_size"])).quantize(quote_increment))
 
-  subject = f"{market_name} {order_side} order of {amount} {amount_currency} {order['status']} @ {market_price} {quote_currency} for environment {environment}"
+  subject = f"{market_name} {order_side} order of {round(float(amount),3)} {amount_currency} {order['status']} @ {market_price} {quote_currency} for environment {environment}"
   print(subject)
   if sns:
     try:
